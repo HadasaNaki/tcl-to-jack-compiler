@@ -1,0 +1,18 @@
+# Compilation outputs
+*.asm
+*.hack
+*.out
+*.cmp
+*.exe
+
+# Nand2Tetris tools and provided libraries
+nand2tetris/
+
+# Test directories
+Tar0/
+TestValid/
+
+# Directories
+.dist/
+__pycache__/
+*.pyc
