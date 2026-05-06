@@ -1,0 +1,166 @@
+class ShapeA {
+
+    field int x, y;
+    field int size;
+    field int orientation;
+    field int actionCount;
+
+    constructor ShapeA new(int Ax, int Ay, int ASize) {
+        let x = Ax;
+        let y = Ay;
+        let size = ASize;
+        let orientation = 0;
+        let actionCount = 0;
+        do show();
+        return this;
+    }
+
+    method void dispose() {
+        do hide();
+        do Memory.deAlloc(this);
+        return;
+    }
+
+    method void show() {
+        do Screen.setColor(true);
+        do draw();
+        return;
+    }
+
+    method void hide() {
+        do Screen.setColor(false);
+        do draw();
+        return;
+    }
+
+    method void draw() {
+        var int half;
+
+        let half = size / 2;
+
+        if (orientation = 0) {
+            do Screen.drawLine(x + half, y, x, y + size);
+            do Screen.drawLine(x + half, y, x + size, y + size);
+            do Screen.drawLine(x, y + size, x + size, y + size);
+        }
+        else {
+            if (orientation = 1) {
+                do Screen.drawLine(x + size, y + half, x, y);
+                do Screen.drawLine(x + size, y + half, x, y + size);
+                do Screen.drawLine(x, y, x, y + size);
+            }
+            else {
+                if (orientation = 2) {
+                    do Screen.drawLine(x, y, x + size, y);
+                    do Screen.drawLine(x, y, x + half, y + size);
+                    do Screen.drawLine(x + size, y, x + half, y + size);
+                }
+                else {
+                    do Screen.drawLine(x, y + half, x + size, y);
+                    do Screen.drawLine(x, y + half, x + size, y + size);
+                    do Screen.drawLine(x + size, y, x + size, y + size);
+                }
+            }
+        }
+        return;
+    }
+
+    method void moveLeft() {
+        do moveBy(-8, 0);
+        return;
+    }
+
+    method void moveRight() {
+        do moveBy(8, 0);
+        return;
+    }
+
+    method void moveUp() {
+        do moveBy(0, -8);
+        return;
+    }
+
+    method void moveDown() {
+        do moveBy(0, 8);
+        return;
+    }
+
+    method void rotate90() {
+        do hide();
+        let orientation = orientation + 1;
+        if (orientation = 4) {
+            let orientation = 0;
+        }
+        do show();
+        let actionCount = actionCount + 1;
+        return;
+    }
+
+    method void rotate180() {
+        do hide();
+        let orientation = orientation + 2;
+        if (orientation > 3) {
+            let orientation = orientation - 4;
+        }
+        do show();
+        let actionCount = actionCount + 1;
+        return;
+    }
+
+    method void rotate270() {
+        do hide();
+        let orientation = orientation + 3;
+        if (orientation > 3) {
+            let orientation = orientation - 4;
+        }
+        do show();
+        let actionCount = actionCount + 1;
+        return;
+    }
+
+    method void grow() {
+        do hide();
+        let size = size + 6;
+        if (size > 160) {
+            let size = 160;
+        }
+        do clampToScreen();
+        do show();
+        let actionCount = actionCount + 1;
+        return;
+    }
+
+    method void shrink() {
+        do hide();
+        let size = size - 6;
+        if (size < 24) {
+            let size = 24;
+        }
+        do clampToScreen();
+        do show();
+        let actionCount = actionCount + 1;
+        return;
+    }
+
+    method void moveBy(int dx, int dy) {
+        do hide();
+        let x = x + dx;
+        let y = y + dy;
+        do clampToScreen();
+        do show();
+        let actionCount = actionCount + 1;
+        return;
+    }
+
+    method void clampToScreen() {
+        let x = Math.max(0, x);
+        let y = Math.max(0, y);
+        let x = Math.min(x, 511 - size);
+        let y = Math.min(y, 255 - size);
+        return;
+    }
+
+    method int getActionCount() {
+        return actionCount;
+    }
+}
