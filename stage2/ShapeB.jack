@@ -1,0 +1,83 @@
+class ShapeB {
+
+    field int x, y;
+    field int width, height;
+    field int actionCount;
+
+    constructor ShapeB new(int Ax, int Ay, int AWidth) {
+        let x = Ax;
+        let y = Ay;
+        let width = AWidth;
+        let height = AWidth / 2;
+        let actionCount = 0;
+        do show();
+        return this;
+    }
+
+    method void dispose() {
+        do hide();
+        do Memory.deAlloc(this);
+        return;
+    }
+
+    method void show() {
+        do Screen.setColor(true);
+        do draw();
+        return;
+    }
+
+    method void hide() {
+        do Screen.setColor(false);
+        do draw();
+        return;
+    }
+
+    method void draw() {
+        do Screen.drawRectangle(x, y, x + width, y + height);
+        do Screen.drawLine(x, y, x + width, y + height);
+        do Screen.drawLine(x + width, y, x, y + height);
+        return;
+    }
+
+    method void moveLeft() {
+        do moveBy(-8, 0);
+        return;
+    }
+
+    method void moveRight() {
+        do moveBy(8, 0);
+        return;
+    }
+
+    method void moveUp() {
+        do moveBy(0, -8);
+        return;
+    }
+
+    method void moveDown() {
+        do moveBy(0, 8);
+        return;
+    }
+
+    method void moveBy(int dx, int dy) {
+        do hide();
+        let x = x + dx;
+        let y = y + dy;
+        do clampToScreen();
+        do show();
+        let actionCount = actionCount + 1;
+        return;
+    }
+
+    method void clampToScreen() {
+        let x = Math.max(0, x);
+        let y = Math.max(0, y);
+        let x = Math.min(x, 511 - width);
+        let y = Math.min(y, 255 - height);
+        return;
+    }
+
+    method int getActionCount() {
+        return actionCount;
+    }
+}
