@@ -1,0 +1,194 @@
+class Main {
+
+    function void main() {
+        var ShapeA shapeA;
+        var ShapeB shapeB;
+        var int selected;
+        var char key;
+        var boolean done;
+
+        do Screen.init();
+        do Keyboard.init();
+        do Output.init();
+        do Screen.clearScreen();
+
+        let shapeA = ShapeA.new(40, 40, 72);
+        let shapeB = ShapeB.new(280, 70, 96);
+        let selected = 0;
+        let done = false;
+
+        do Main.drawHud(selected, shapeA, shapeB);
+
+        while (~done) {
+            let key = Keyboard.readChar();
+
+            if (key = 49) {
+                let selected = 0;
+                do Main.drawHud(selected, shapeA, shapeB);
+            }
+            else {
+                if (key = 50) {
+                    let selected = 1;
+                    do Main.drawHud(selected, shapeA, shapeB);
+                }
+                else {
+                    if ((selected = 0) & (key = 130)) {
+                        do shapeA.moveLeft();
+                        do Main.drawHud(selected, shapeA, shapeB);
+                    }
+                    else {
+                        if ((selected = 0) & (key = 131)) {
+                            do shapeA.moveUp();
+                            do Main.drawHud(selected, shapeA, shapeB);
+                        }
+                        else {
+                            if ((selected = 0) & (key = 132)) {
+                                do shapeA.moveRight();
+                                do Main.drawHud(selected, shapeA, shapeB);
+                            }
+                            else {
+                                if ((selected = 0) & (key = 133)) {
+                                    do shapeA.moveDown();
+                                    do Main.drawHud(selected, shapeA, shapeB);
+                                }
+                                else {
+                                    if ((selected = 1) & (key = 130)) {
+                                        do shapeB.moveLeft();
+                                        do Main.drawHud(selected, shapeA, shapeB);
+                                    }
+                                    else {
+                                        if ((selected = 1) & (key = 131)) {
+                                            do shapeB.moveUp();
+                                            do Main.drawHud(selected, shapeA, shapeB);
+                                        }
+                                        else {
+                                            if ((selected = 1) & (key = 132)) {
+                                                do shapeB.moveRight();
+                                                do Main.drawHud(selected, shapeA, shapeB);
+                                            }
+                                            else {
+                                                if ((selected = 1) & (key = 133)) {
+                                                    do shapeB.moveDown();
+                                                    do Main.drawHud(selected, shapeA, shapeB);
+                                                }
+                                                else {
+                                                    if ((selected = 0) & (key = 114)) {
+                                                        do shapeA.rotate90();
+                                                        do Main.drawHud(selected, shapeA, shapeB);
+                                                    }
+                                                    else {
+                                                        if ((selected = 0) & (key = 101)) {
+                                                            do shapeA.rotate180();
+                                                            do Main.drawHud(selected, shapeA, shapeB);
+                                                        }
+                                                        else {
+                                                            if ((selected = 0) & (key = 116)) {
+                                                                do shapeA.rotate270();
+                                                                do Main.drawHud(selected, shapeA, shapeB);
+                                                            }
+                                                            else {
+                                                                if ((selected = 1) & (key = 114)) {
+                                                                    do shapeB.rotate90();
+                                                                    do Main.drawHud(selected, shapeA, shapeB);
+                                                                }
+                                                                else {
+                                                                    if ((selected = 1) & (key = 101)) {
+                                                                        do shapeB.rotate180();
+                                                                        do Main.drawHud(selected, shapeA, shapeB);
+                                                                    }
+                                                                    else {
+                                                                        if ((selected = 1) & (key = 116)) {
+                                                                            do shapeB.rotate270();
+                                                                            do Main.drawHud(selected, shapeA, shapeB);
+                                                                        }
+                                                                        else {
+                                                                            if ((selected = 0) & (key = 43)) {
+                                                                                do shapeA.grow();
+                                                                                do Main.drawHud(selected, shapeA, shapeB);
+                                                                            }
+                                                                            else {
+                                                                                if ((selected = 0) & (key = 45)) {
+                                                                                    do shapeA.shrink();
+                                                                                    do Main.drawHud(selected, shapeA, shapeB);
+                                                                                }
+                                                                                else {
+                                                                                    if ((selected = 1) & (key = 43)) {
+                                                                                        do shapeB.grow();
+                                                                                        do Main.drawHud(selected, shapeA, shapeB);
+                                                                                    }
+                                                                                    else {
+                                                                                        if ((selected = 1) & (key = 45)) {
+                                                                                            do shapeB.shrink();
+                                                                                            do Main.drawHud(selected, shapeA, shapeB);
+                                                                                        }
+                                                                                        else {
+                                                                                            if ((key = 113) | (key = 81) | (key = 140)) {
+                                                                                                let done = true;
+                                                                                            }
+                                                                                        }
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        do Screen.clearScreen();
+        do Main.printSummary(selected, shapeA, shapeB);
+        do shapeA.dispose();
+        do shapeB.dispose();
+        return;
+    }
+
+    function void drawHud(int selected, ShapeA shapeA, ShapeB shapeB) {
+        do Output.moveCursor(0, 0);
+        do Output.printString("1=A 2=B arrows move R/E/T rotate +/- scale Q exit");
+        do Output.moveCursor(1, 0);
+        do Output.printString("Selected: ");
+        if (selected = 0) {
+            do Output.printString("ShapeA");
+        }
+        else {
+            do Output.printString("ShapeB");
+        }
+        do Output.printString(" | A:");
+        do Output.printInt(shapeA.getActionCount());
+        do Output.printString(" B:");
+        do Output.printInt(shapeB.getActionCount());
+        return;
+    }
+
+    function void printSummary(int selected, ShapeA shapeA, ShapeB shapeB) {
+        do Output.moveCursor(3, 0);
+        do Output.printString("Final selected object: ");
+        if (selected = 0) {
+            do Output.printString("ShapeA");
+            do Output.moveCursor(4, 0);
+            do Output.printString("Actions on ShapeA: ");
+            do Output.printInt(shapeA.getActionCount());
+        }
+        else {
+            do Output.printString("ShapeB");
+            do Output.moveCursor(4, 0);
+            do Output.printString("Actions on ShapeB: ");
+            do Output.printInt(shapeB.getActionCount());
+        }
+        do Output.moveCursor(6, 0);
+        do Output.printString("Use the keyboard to switch between the two shapes.");
+        return;
+    }
+}
